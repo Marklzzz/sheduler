@@ -35,7 +35,8 @@ class Scheduler:
 
 
 def print_notification(task):
-    notification.notify("Новая задача начата", task, app_name="scheduler", timeout=10)
+    notification.notify("Новая задача начата", task, app_name="sheduler", timeout=10)
+
 
 
 sched = Scheduler(check_tasks())
