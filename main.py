@@ -94,7 +94,6 @@ class START:
     def __init__(self, list_of_tasks):
         self.list_of_tasks = list_of_tasks
 
-
     def start(self):
         for i in range(len(self.list_of_tasks)):
             date_and_time = self.list_of_tasks[i][0]  # 27.06.2021 18:00 -> (2021, 6, 27, 18, 0, 0)
@@ -115,6 +114,7 @@ class START:
 
 def print_notification(task):
     notification.notify("Новая задача начата", task, app_name="sheduler", timeout=10)
+
 
 def hide(obj):
     obj.hide()
