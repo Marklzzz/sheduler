@@ -28,7 +28,7 @@ class Scheduler(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setFixedSize(400, 485)
+        self.setFixedSize(400, 150)
         self.move(300, 300)
         self.setWindowTitle('Планировщик')
 
@@ -67,6 +67,7 @@ class Scheduler(QWidget):
 
     def update_widget(self):
         self.count_of_notification += 1
+        self.setFixedSize(400, 150 + self.count_of_notification * 100)
         self.draw()
 
     def save(self):
@@ -74,9 +75,10 @@ class Scheduler(QWidget):
             if not i[0].text() or not i[1].text():
                 break
         else:
+            self.cur.execute('DELETE FROM jobs')
             for i in self.list_qlines:
                 self.update_db(str(i[0].text()), str(i[1].text()))
-        #self.hide()
+        # self.hide()
         self.con.close()
         shed = START(check_tasks())
         self.hide()
@@ -86,7 +88,7 @@ class Scheduler(QWidget):
         self.cur.execute('INSERT INTO jobs VALUES ("{}", "{}")'.format(str(time), str(job)))
         self.con.commit()
 
-'''01.07.2021 20:07 пойти пить чай'''
+
 class START:
     def __init__(self, list_of_tasks):
         self.list_of_tasks = list_of_tasks
@@ -109,13 +111,24 @@ class START:
         raise SystemExit(1)
 
 
-
 def print_notification(task):
     notification.notify("Новая задача начата", task, app_name="sheduler", timeout=10)
 
 
+class Example(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setFixedSize(410, 450)
+        self.scrollArea = QScrollArea()
+        self.scrollArea.setFixedSize(410, 450)
+        self.setCentralWidget(self.scrollArea)
+        self.widget = Scheduler()
+        self.scrollArea.setWidget(self.widget)
+        self.show()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Scheduler()
+    ex = Example()
     ex.show()
     sys.exit(app.exec_())
