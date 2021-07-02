@@ -82,6 +82,7 @@ class Scheduler(QWidget):
         self.con.close()
         shed = START(check_tasks())
         self.hide()
+        hide(ex)
         shed.start()
 
     def update_db(self, time, job):
@@ -92,6 +93,7 @@ class Scheduler(QWidget):
 class START:
     def __init__(self, list_of_tasks):
         self.list_of_tasks = list_of_tasks
+
 
     def start(self):
         for i in range(len(self.list_of_tasks)):
@@ -114,10 +116,14 @@ class START:
 def print_notification(task):
     notification.notify("Новая задача начата", task, app_name="sheduler", timeout=10)
 
+def hide(obj):
+    obj.hide()
+
 
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle('Планировщик')
         self.setFixedSize(410, 450)
         self.scrollArea = QScrollArea()
         self.scrollArea.setFixedSize(410, 450)
